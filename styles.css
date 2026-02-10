@@ -19,9 +19,9 @@
     font-size: 30px;
     font-weight: 700;
     color: #ced1d3;
-    top: 12px;
+    top: 2px;
     background-color: #082129;
-    box-shadow: 0px 3px 10px #082129;
+    box-shadow: 0px 5px 10px #082129;
 }
 
 .search-input {

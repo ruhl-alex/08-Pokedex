@@ -37,3 +37,37 @@
     color: #5e6f7f;
     font-weight: 700;
 }
+
+.poke-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 220px;
+    width: 150px;
+    background-color: #082129;
+    border-radius: 15px;
+}
+
+.poke-card-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.poke-card-img {
+    height: 150px;
+    width: 100%;
+    background-color: #183a46;
+}
+
+.poke-card-art {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+}

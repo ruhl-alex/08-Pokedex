@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="./assets/img/pokedex_logo.svg">
+    <link rel="stylesheet" href="./style/loadingspinner.css">
     <link rel="stylesheet" href="./style/fonts.css">
     <link rel="stylesheet" href="./style/standard.css">
     <link rel="stylesheet" href="./styles.css">
@@ -16,10 +17,11 @@
 <body onload="onload()">
     <header>
         <section class="container-header">
-            <div class="header-part">
+            <div class="header-part">   
             </div>
             <div class="header-part">
-                <span class="logo-text">Pokedex</span><img src="./assets/img/pokedex_logo.svg" alt="Pokeball" class="logo-pokeball">
+                <span class="logo-text">Pokedex</span><img src="./assets/img/pokedex_logo.svg" alt="Pokeball"
+                    class="logo-pokeball">
             </div>
             <div class="header-part">
                 <input type="search" placeholder="Poke-Search..." class="search-input">
@@ -27,18 +29,21 @@
         </section>
     </header>
     <main>
-        <section id="poke-container" class="container-main">
-            <div class="poke-card">
-                <div id="id-poke-card-name" class="poke-card-name">
-                    Name
-                </div>
-                <div id="id-poke-card-img" class="poke-card-img">
-                    Bild
-                </div>
-                <div id="id-poke-card-art" class="poke-card-art">
-                    Art
+        <section class="container-main">
+            <div id="poke-container" class="poke-container">
+                <div class="poke-card">
+                    <div id="id-poke-card-name" class="poke-card-name">
+                        Name
+                    </div>
+                    <div id="id-poke-card-img" class="poke-card-img">
+                        <img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png">
+                    </div>
+                    <div id="id-poke-card-art" class="poke-card-art">
+                        <span class="poke-type-span">Grass</span>
+                    </div>
                 </div>
             </div>
+            <button onclick="loadMorePokes()" class="load-more-btn">Load more</button>
         </section>
     </main>
     <footer>

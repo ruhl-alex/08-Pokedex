@@ -22,6 +22,7 @@ async function loadPokes() {
             }
         );
     }
+
 }
 
 async function loadImgAndTypes() {
@@ -36,6 +37,7 @@ async function loadImgAndTypes() {
         }
         pokes[index].type = typesArray;
     }
+
 }
 
 async function loadDataFromApi(path = "") {
@@ -52,8 +54,18 @@ function renderTypes(types) {
 }
 
 async function loadMorePokes() {
+    showLoadingSpinner();
     offSet += limit;
     await loadPokes();
     await loadImgAndTypes();
     renderPokes();
+    hideLoadingSpinner();
+}
+
+function showLoadingSpinner() {
+    document.getElementById("loader-overlay").classList.remove("d-none");
+}
+
+function hideLoadingSpinner() {
+    document.getElementById("loader-overlay").classList.add("d-none");
 }

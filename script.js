@@ -48,7 +48,7 @@ async function loadDataFromApi(path = "") {
 function renderTypes(types) {
     let typesHTML = "";
     for (let i = 0; i < types.length; i++) {
-        typesHTML += `<span class="poke-type-span">${types[i]}</span>`;
+        typesHTML += `<span class="poke-type-span bg-${types[i]}">${types[i]}</span>`;
     }
     return typesHTML;
 }

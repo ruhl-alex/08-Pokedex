@@ -9,7 +9,7 @@ function renderPokes() {
                     ${pokes[index].name}
                 </div>
                 <div id="id-poke-card-img" class="poke-card-img">
-                    <img class="poke-img" src="${pokes[index].img}" alt="${pokes[index].name}">
+                    <img class="poke-img bg-${pokes[index].type[0]}" src="${pokes[index].img}" alt="${pokes[index].name}">
                 </div>
                 <div id="id-poke-card-art" class="poke-card-art">
                     ${renderTypes(pokes[index].type)}

@@ -10,6 +10,16 @@ async function onload() {
     console.log(pokes);
 }
 
+function renderPokes() {
+    const pokeContainer = document.getElementById("poke-container");
+    pokeContainer.innerHTML = "";
+    showLoadingSpinner();
+    for (let index = 0; index < pokes.length; index++) {
+        pokeContainer.innerHTML +=  renderPokeCards(index);
+}
+    hideLoadingSpinner();
+}
+
 async function loadPokes() {
     let pokesList = await loadDataFromApi(`pokemon?limit=${limit}&offset=${offSet}`);
     for (let index = 0; index < pokesList.results.length; index++) {
@@ -22,7 +32,6 @@ async function loadPokes() {
             }
         );
     }
-
 }
 
 async function loadImgAndTypes() {
@@ -37,7 +46,6 @@ async function loadImgAndTypes() {
         }
         pokes[index].type = typesArray;
     }
-
 }
 
 async function loadDataFromApi(path = "") {
@@ -48,7 +56,7 @@ async function loadDataFromApi(path = "") {
 function renderTypes(types) {
     let typesHTML = "";
     for (let i = 0; i < types.length; i++) {
-        typesHTML += `<span class="poke-type-span bg-${types[i]}">${types[i]}</span>`;
+        typesHTML += returnTypesHTML(types, i);
     }
     return typesHTML;
 }
@@ -78,23 +86,24 @@ function searchPoke() {
     if (searchInput.length >= 3) {
     for (let index = 0; index < pokes.length; index++) {
         if (pokes[index].name.toLowerCase().includes(searchInput)) {
-            pokeContainer.innerHTML +=  `
-            <div class="poke-card">
-                <div class="poke-card-name">
-                    ${pokes[index].name}
-                </div>
-                <div class="poke-card-img">
-                    <img class="poke-img bg-${pokes[index].type[0]}" src="${pokes[index].img}" alt="${pokes[index].name}">
-                </div>
-                <div class="poke-card-art">
-                    ${renderTypes(pokes[index].type)}
-                </div>
-                </div>
-            `
+            pokeContainer.innerHTML += renderPokeCards(index);
         }   
     }
     } else {
         renderPokes();
     }
     hideLoadingSpinner();
+}
+
+function showPokeDetails(index) {
+    const dialogRef = document.getElementById("poke-dialog");
+    dialogRef.innerHTML = showPokeDetailsHTML(index);
+    dialogRef.showModal();
+    dialogRef.classList.add("opened");
+}
+
+function closeDialog() {
+    const dialogRef = document.getElementById("poke-dialog");
+    dialogRef.close();
+    dialogRef.classList.remove("opened");
 }

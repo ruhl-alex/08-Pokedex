@@ -1,10 +1,6 @@
-function renderPokes() {
-    const pokeContainer = document.getElementById("poke-container");
-    pokeContainer.innerHTML = "";
-    showLoadingSpinner();
-    for (let index = 0; index < pokes.length; index++) {
-        pokeContainer.innerHTML +=  `
-            <div class="poke-card">
+function renderPokeCards(index) {
+    return `
+            <div class="poke-card" onclick="showPokeDetails(${index})">
                 <div class="poke-card-name">
                     ${pokes[index].name}
                 </div>
@@ -15,8 +11,19 @@ function renderPokes() {
                     ${renderTypes(pokes[index].type)}
                 </div>
             </div>
-        `
-}
-    hideLoadingSpinner();
+        `;
 }
 
+function showPokeDetailsHTML(index) {
+    return `
+        <h2>${pokes[index].name}</h2>
+        <img class="poke-img bg-${pokes[index].type[0]}" src="${pokes[index].img}" alt="${pokes[index].name}">
+        <button onclick="closeDialog()">Close</button>
+    `;
+}
+
+function returnTypesHTML(types, i) {
+    return `
+    <span class="poke-type-span bg-${types[i]}">${types[i]}</span>
+    `;
+}

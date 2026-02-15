@@ -143,6 +143,31 @@
     color: #ced1d3;
 }
 
+dialog {
+    opacity: 0.5;
+    background-color: #273140;
+    width: 70vw;
+    max-height: 95%;
+    padding: 6px;
+    border: 0;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px #273140;
+    outline: none;
+}
+
+dialog.opened {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 1;
+    transition: all 0.3s ease-in;
+}
+
+dialog::backdrop {
+    background-color: rgb(15, 19, 30, 0.6);
+}
+
 @media screen and (max-width: 670px) {
     .header-part-left {
         display: none;

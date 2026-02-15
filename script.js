@@ -11,7 +11,7 @@ async function onload() {
 }
 
 async function loadPokes() {
-    let pokesList = await loadDataFromApi("pokemon?limit=${limit}&offset=${offSet}");
+    let pokesList = await loadDataFromApi(`pokemon?limit=${limit}&offset=${offSet}`);
     for (let index = 0; index < pokesList.results.length; index++) {
 
         pokes.push(
@@ -68,4 +68,33 @@ function showLoadingSpinner() {
 
 function hideLoadingSpinner() {
     document.getElementById("loader-overlay").classList.add("d-none");
+}
+
+function searchPoke() {
+    const searchInput = document.getElementById("search-input").value.toLowerCase();
+    const pokeContainer = document.getElementById("poke-container");
+    pokeContainer.innerHTML = "";
+    showLoadingSpinner();
+    if (searchInput.length >= 3) {
+    for (let index = 0; index < pokes.length; index++) {
+        if (pokes[index].name.toLowerCase().includes(searchInput)) {
+            pokeContainer.innerHTML +=  `
+            <div class="poke-card">
+                <div class="poke-card-name">
+                    ${pokes[index].name}
+                </div>
+                <div class="poke-card-img">
+                    <img class="poke-img bg-${pokes[index].type[0]}" src="${pokes[index].img}" alt="${pokes[index].name}">
+                </div>
+                <div class="poke-card-art">
+                    ${renderTypes(pokes[index].type)}
+                </div>
+                </div>
+            `
+        }   
+    }
+    } else {
+        renderPokes();
+    }
+    hideLoadingSpinner();
 }

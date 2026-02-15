@@ -21,14 +21,14 @@
 </div>
     <header>
         <section class="container-header">
-            <div class="header-part">   
+            <div class="header-part-left">   
             </div>
-            <div class="header-part">
+            <div class="header-part-middle">
                 <span class="logo-text">Pokedex</span><img src="./assets/img/pokedex_logo.svg" alt="Pokeball"
                     class="logo-pokeball">
             </div>
-            <div class="header-part">
-                <input type="search" placeholder="Poke-Search..." class="search-input">
+            <div class="header-part-right">
+                <input type="search" placeholder="Poke-Search..." class="search-input" oninput="searchPoke(this.value)" id="search-input">
             </div>
         </section>
     </header>
@@ -36,13 +36,13 @@
         <section class="container-main">
             <div id="poke-container" class="poke-container">
                 <!-- <div class="poke-card">
-                    <div id="id-poke-card-name" class="poke-card-name">
+                    <div class="poke-card-name">
                         Name
                     </div>
-                    <div id="id-poke-card-img" class="poke-card-img">
+                    <div class="poke-card-img">
                         <img class="poke-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png">
                     </div>
-                    <div id="id-poke-card-art" class="poke-card-art">
+                    <div class="poke-card-art">
                         <span class="poke-type-span">Grass</span>
                     </div>
                 </div> -->

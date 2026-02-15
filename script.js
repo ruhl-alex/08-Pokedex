@@ -1,13 +1,13 @@
 let pokes = [];
+let podeDetails = [];
 let BASE_URL = "https://pokeapi.co/api/v2/";
-let limit = 20;
+let limit = 30;
 let offSet = 0;
 
 async function onload() {
     await loadPokes();
     await loadImgAndTypes();
     renderPokes();
-    console.log(pokes);
 }
 
 function renderPokes() {
@@ -107,3 +107,14 @@ function closeDialog() {
     dialogRef.close();
     dialogRef.classList.remove("opened");
 }
+
+document.addEventListener("click", (event) => {
+
+    const dialogRef = document.getElementById("poke-dialog");
+    if (!dialogRef.open) {
+        return;
+    }
+    if (event.target === dialogRef) {
+        closeDialog();
+    }
+});

@@ -69,11 +69,3 @@
 .bg-Ground {
     background-color: #795548;
 }
-
-.details-img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    width: 100%;
-}

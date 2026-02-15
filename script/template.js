@@ -17,16 +17,22 @@ function renderPokeCards(index) {
 function showPokeDetailsHTML(index) {
     return `
         <div class="dialog-header">
-        <div class="dialog-header-left"></div>
-        <div class="dialog-header-middle">
-        <h2>${pokes[index].name}</h2>
+            <div class="dialog-header-left"></div>
+            <div class="dialog-header-middle">
+                <h2>${pokes[index].name}</h2>
+            </div>
+            <div class="dialog-header-right">
+                <img src="./assets/img/close.png" id="closeButton" class="dialogButtonX" aria-label="Dialog schließen" onclick="closeDialog()">
+            </div>
         </div>
-        <div class="dialog-header-right">
-        <img src="./assets/img/close.png" id="closeButton" class="dialogButton" aria-label="Dialog schließen" onclick="closeDialog()">
-        </div>
-        </div>
-        <div class="details-img">
-        <img class="poke-img bg-${pokes[index].type[0]}" src="${pokes[index].img}" alt="${pokes[index].name}">
+        <div class="details-middle">
+            <div class="next-prev-btns bg-${pokes[index].type[0]}">
+            <img class="dialogButton bg-${pokes[index].type[0]}" src="./assets/img/left_left.png" aria-label="Vorheriges Pokémon anzeigen" onclick="showPokeDetails(${index - 1})">
+            </div>
+            <img class="poke-img bg-${pokes[index].type[0]}" src="${pokes[index].img}" alt="${pokes[index].name}">
+            <div class="next-prev-btns bg-${pokes[index].type[0]}">
+            <img class="dialogButton bg-${pokes[index].type[0]}" src="./assets/img/right_right.png" aria-label="Vorheriges Pokémon anzeigen" onclick="showPokeDetails(${index + 1})">
+            </div>
         </div>
         <div class="details-info">
         </div>

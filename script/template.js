@@ -79,6 +79,31 @@ function showDetailMainInHTML(pokemon) {
 
 function showDetailStatsInHTML(pokemon) {
     return `
-        Height: ${pokemon.height}
+        <table>
+            <tr>
+                <td><span class="stats-name">${pokemon.statsName[0]} (Hit Points):</span></td>
+                <td><progress value="${pokemon.statsBaseStat[0]}" max="100"></progress></td>
+            </tr>
+            <tr>
+                <td><span class="stats-name">${pokemon.statsName[1]}:</span></td>
+                <td><progress value="${pokemon.statsBaseStat[1]}" max="100"></progress></td>
+            </tr>       
+            <tr>
+                <td><span class="stats-name">${pokemon.statsName[2]}:</span></td>
+                <td><progress value="${pokemon.statsBaseStat[2]}" max="100"></progress></td>
+            </tr>
+            <tr>
+                <td><span class="stats-name">${pokemon.statsName[3]}:</span></td>
+                <td><progress value="${pokemon.statsBaseStat[3]}" max="100"></progress></td>
+            </tr>
+            <tr>
+                <td><span class="stats-name">${pokemon.statsName[4]}:</span></td>
+                <td><progress value="${pokemon.statsBaseStat[4]}" max="100"></progress></td>
+            </tr>
+            <tr>
+                <td><span class="stats-name">${pokemon.statsName[5]}:</span></td>
+                <td><progress value="${pokemon.statsBaseStat[5]}" max="100"></progress></td>
+            </tr>
+        </table>
         `
 }

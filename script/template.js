@@ -35,6 +35,10 @@ function showPokeDetailsHTML(index) {
             </div>
         </div>
         <div class="details-info">
+            <div class="details-navbar">
+                <button class="details-nav active">Main</button>
+                <button class="details-nav">Stats</button>
+            </div>
         </div>
     `;
 }

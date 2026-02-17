@@ -118,3 +118,13 @@ document.addEventListener("click", (event) => {
         closeDialog();
     }
 });
+
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("details-nav")) {
+        
+        const navBtn = document.querySelectorAll(".details-nav");
+        navBtn.forEach(item => item.classList.remove("active"));
+        
+        event.target.classList.add("active");
+    }
+});

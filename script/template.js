@@ -15,6 +15,7 @@ function renderPokeCards(index) {
 }
 
 function showPokeDetailsHTML(index) {
+    pokeDetails.find(poke => poke.id === index)
     return `
         <div class="dialog-header">
             <div class="dialog-header-left"></div>
@@ -36,8 +37,29 @@ function showPokeDetailsHTML(index) {
         </div>
         <div class="details-info">
             <div class="details-navbar">
-                <button class="details-nav active">Main</button>
-                <button class="details-nav">Stats</button>
+                <button onclick="loadPokeDetailsHTML(${pokes[index].id}, 1)" class="details-nav active">Main</button>
+                <button onclick="loadPokeDetailsHTML(${pokes[index].id}, 2)" class="details-nav">Stats</button>
+            </div>
+            <div id="details-content" class="details-content">
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td>${pokes[index].name}</td>
+                    </tr>
+                    <tr>
+                        <td>Height:</td>
+                        <td>${pokeDetails.height}</td>
+                    </tr>       
+                    <tr>
+                        <td>Weight:</td>
+                        <td>${pokeDetails.weight}</td>
+                    </tr>
+                    <tr>
+                        <td>Base Experience:</td>
+                        <td>${pokeDetails.base_experience}</td>
+                    </tr>
+                </table>
+            
             </div>
         </div>
     `;
@@ -47,4 +69,34 @@ function returnTypesHTML(types, i) {
     return `
     <span class="poke-type-span bg-${types[i]}">${types[i]}</span>
     `;
+}
+
+function showDetailMainInHTML(index) {
+
+    return `
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td>${pokes[index].name}</td>
+            </tr>
+            <tr>
+                <td>Height:</td>
+                <td>${pokeDetails.height}</td>
+            </tr>       
+            <tr>
+                <td>Weight:</td>
+                <td>${pokeDetails.weight}</td>
+            </tr>
+            <tr>
+                <td>Base Experience:</td>
+                <td>${pokeDetails.base_experience}</td>
+            </tr>
+        </table>
+        `;
+}
+
+function showDetailStatsInHTML(pokemon) {
+    return `
+        Height: ${pokemon.height}
+        `
 }

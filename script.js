@@ -1,5 +1,5 @@
 let pokes = [];
-let podeDetails = [];
+let pokeDetails = [];
 let BASE_URL = "https://pokeapi.co/api/v2/";
 let limit = 30;
 let offSet = 0;
@@ -15,8 +15,8 @@ function renderPokes() {
     pokeContainer.innerHTML = "";
     showLoadingSpinner();
     for (let index = 0; index < pokes.length; index++) {
-        pokeContainer.innerHTML +=  renderPokeCards(index);
-}
+        pokeContainer.innerHTML += renderPokeCards(index);
+    }
     hideLoadingSpinner();
 }
 
@@ -32,6 +32,7 @@ async function loadPokes() {
             }
         );
     }
+    console.log(pokes);
 }
 
 async function loadImgAndTypes() {
@@ -46,6 +47,55 @@ async function loadImgAndTypes() {
         }
         pokes[index].type = typesArray;
     }
+}
+
+async function loadPokeDetailsHTML(index, button) {
+    const detailsContent = document.getElementById("details-content");
+    await loadPokeDetailsToArray(index);
+
+    const pokemon = pokeDetails.find(poke => poke.id === index);
+    detailsContent.innerHTML = "";
+    
+    if (button === 1) {
+    detailsContent.innerHTML = showDetailMainInHTML(pokemon);
+    } else if (button === 2) {
+        detailsContent.innerHTML = showDetailStatsInHTML(pokemon);
+    }
+}
+
+async function loadPokeDetailsToArray(index) {
+    pokeListDetails = await loadDataFromApi("pokemon/" + (index + 1));
+
+    if (pokeDetails.find(poke => poke.id === index)) {
+        return;
+    }
+
+    let statsName = [];
+    let statsBaseStat = [];
+
+    for (let i = 0; i < pokeListDetails.stats.length; i++) {
+        statsName.push(
+            pokeListDetails.stats[i].stat.name.charAt(0).toUpperCase() + pokeListDetails.stats[i].stat.name.slice(1)
+        );
+        statsBaseStat.push(
+            pokeListDetails.stats[i].base_stat
+        );
+    }
+
+    pokeDetails.push(
+        {
+            id: pokes[index - 1].id,
+            name: pokes[index - 1].name,
+            height: pokeListDetails.height,
+            weight: pokeListDetails.weight,
+            base_experience: pokeListDetails.base_experience,
+            statsBaseStat: statsBaseStat,
+            statsName: statsName,
+        }
+    );
+
+
+    console.log(pokeDetails);
 }
 
 async function loadDataFromApi(path = "") {
@@ -84,11 +134,11 @@ function searchPoke() {
     pokeContainer.innerHTML = "";
     showLoadingSpinner();
     if (searchInput.length >= 3) {
-    for (let index = 0; index < pokes.length; index++) {
-        if (pokes[index].name.toLowerCase().includes(searchInput)) {
-            pokeContainer.innerHTML += renderPokeCards(index);
-        }   
-    }
+        for (let index = 0; index < pokes.length; index++) {
+            if (pokes[index].name.toLowerCase().includes(searchInput)) {
+                pokeContainer.innerHTML += renderPokeCards(index);
+            }
+        }
     } else {
         renderPokes();
     }
@@ -116,15 +166,5 @@ document.addEventListener("click", (event) => {
     }
     if (event.target === dialogRef) {
         closeDialog();
-    }
-});
-
-document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("details-nav")) {
-        
-        const navBtn = document.querySelectorAll(".details-nav");
-        navBtn.forEach(item => item.classList.remove("active"));
-        
-        event.target.classList.add("active");
     }
 });

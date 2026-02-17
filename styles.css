@@ -260,9 +260,7 @@ body:has(dialog[open]) {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
-    width: 100%;
-    gap: 5px;
+    gap: 2px;
 }
 
 .details-nav {
@@ -272,20 +270,27 @@ body:has(dialog[open]) {
     color: #ced1d3;
     width: 100%;
     height: 30px;
-    text-align: center;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 3px;
     background-color: #183a46;
     border-top: none;
     border-left: none;
     border-right: none;
     border-bottom: 3px solid #183a46;
+    outline: none;
 }
 
 .details-nav.active {
     border-bottom: 3px solid #9e4545;
+}
+
+.details-content {
+    display: flex;
+    justify-content: flex-start;
+    color: #ced1d3;
+    padding: 10px 20px;
+    font-size: 14px;
 }
 
 @media screen and (max-width: 670px) {

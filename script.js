@@ -5,19 +5,28 @@ let limit = 30;
 let offSet = 0;
 
 async function onload() {
+    showLoadingSpinner();
     await loadPokes();
     await loadImgAndTypes();
     renderPokes();
+    hideLoadingSpinner();
+}
+
+function showLoadingSpinner() {
+    document.getElementById("loader-overlay").classList.remove("d-none");
+}
+
+function hideLoadingSpinner() {
+    document.getElementById("loader-overlay").classList.add("d-none");
 }
 
 function renderPokes() {
     const pokeContainer = document.getElementById("poke-container");
     pokeContainer.innerHTML = "";
-    showLoadingSpinner();
+
     for (let index = 0; index < pokes.length; index++) {
         pokeContainer.innerHTML += renderPokeCards(index);
     }
-    hideLoadingSpinner();
 }
 
 async function loadPokes() {
@@ -51,15 +60,21 @@ async function loadImgAndTypes() {
 
 async function loadPokeDetailsHTML(index, button) {
     const detailsContent = document.getElementById("details-content");
+    const detailsMainBtn = document.getElementById("details-main-btn");
+    const detailsStatsBtn = document.getElementById("details-stats-btn");
     await loadPokeDetailsToArray(index);
 
     const pokemon = pokeDetails.find(poke => poke.id === index);
     detailsContent.innerHTML = "";
-    
+
     if (button === 1) {
-    detailsContent.innerHTML = showDetailMainInHTML(pokemon);
+        detailsContent.innerHTML = showDetailMainInHTML(pokemon);
+        detailsStatsBtn.classList.remove("active");
+        detailsMainBtn.classList.add("active");
     } else if (button === 2) {
         detailsContent.innerHTML = showDetailStatsInHTML(pokemon);
+        detailsStatsBtn.classList.add("active");
+        detailsMainBtn.classList.remove("active");
     }
 }
 
@@ -93,9 +108,6 @@ async function loadPokeDetailsToArray(index) {
             statsName: statsName,
         }
     );
-
-
-    console.log(pokeDetails);
 }
 
 async function loadDataFromApi(path = "") {
@@ -120,14 +132,6 @@ async function loadMorePokes() {
     hideLoadingSpinner();
 }
 
-function showLoadingSpinner() {
-    document.getElementById("loader-overlay").classList.remove("d-none");
-}
-
-function hideLoadingSpinner() {
-    document.getElementById("loader-overlay").classList.add("d-none");
-}
-
 function searchPoke() {
     const searchInput = document.getElementById("search-input").value.toLowerCase();
     const pokeContainer = document.getElementById("poke-container");
@@ -145,11 +149,26 @@ function searchPoke() {
     hideLoadingSpinner();
 }
 
-function showPokeDetails(index) {
+async function showPokeDetails(index) {
     const dialogRef = document.getElementById("poke-dialog");
+    await loadPokeDetailsToArray(index + 1);
     dialogRef.innerHTML = showPokeDetailsHTML(index);
+
     dialogRef.showModal();
     dialogRef.classList.add("opened");
+
+    console.log(pokeDetails);
+}
+
+function changePokeDetails(index, direction) {
+    let newIndex = index + direction;
+
+    if (newIndex < 0) {
+        newIndex = pokes.length - 1;
+    } else if (newIndex >= pokes.length) {
+        newIndex = 0;
+    }
+    showPokeDetails(newIndex);
 }
 
 function closeDialog() {

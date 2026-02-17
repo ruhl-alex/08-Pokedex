@@ -2,6 +2,7 @@ h2 {
     color: #ced1d3;
     margin-block-start: 0em;
     margin-block-end: 0em;
+    width: max-content;
 }
 
 .header-part-left {

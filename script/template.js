@@ -15,7 +15,8 @@ function renderPokeCards(index) {
 }
 
 function showPokeDetailsHTML(index) {
-    pokeDetails.find(poke => poke.id === index)
+    const pokemon = pokeDetails.find(poke => poke.id === pokes[index].id);
+
     return `
         <div class="dialog-header">
             <div class="dialog-header-left"></div>
@@ -28,38 +29,20 @@ function showPokeDetailsHTML(index) {
         </div>
         <div class="details-middle">
             <div class="next-prev-btns bg-${pokes[index].type[0]}">
-            <img class="dialogButton bg-${pokes[index].type[0]}" src="./assets/img/left_left.png" aria-label="Vorheriges Pokémon anzeigen" onclick="showPokeDetails(${index - 1})">
+            <img class="dialogButton bg-${pokes[index].type[0]}" src="./assets/img/left_left.png" aria-label="Vorheriges Pokémon anzeigen" onclick="changePokeDetails(${index}, -1)">
             </div>
             <img class="poke-img bg-${pokes[index].type[0]}" src="${pokes[index].img}" alt="${pokes[index].name}">
             <div class="next-prev-btns bg-${pokes[index].type[0]}">
-            <img class="dialogButton bg-${pokes[index].type[0]}" src="./assets/img/right_right.png" aria-label="Vorheriges Pokémon anzeigen" onclick="showPokeDetails(${index + 1})">
+            <img class="dialogButton bg-${pokes[index].type[0]}" src="./assets/img/right_right.png" aria-label="Nächstes Pokémon anzeigen" onclick="changePokeDetails(${index}, 1)">
             </div>
         </div>
         <div class="details-info">
             <div class="details-navbar">
-                <button onclick="loadPokeDetailsHTML(${pokes[index].id}, 1)" class="details-nav active">Main</button>
-                <button onclick="loadPokeDetailsHTML(${pokes[index].id}, 2)" class="details-nav">Stats</button>
+                <button id="details-main-btn" onclick="loadPokeDetailsHTML(${pokes[index].id}, 1)" class="details-nav active">Main</button>
+                <button id="details-stats-btn" onclick="loadPokeDetailsHTML(${pokes[index].id}, 2)" class="details-nav">Stats</button>
             </div>
             <div id="details-content" class="details-content">
-                <table>
-                    <tr>
-                        <td>Name:</td>
-                        <td>${pokes[index].name}</td>
-                    </tr>
-                    <tr>
-                        <td>Height:</td>
-                        <td>${pokeDetails.height}</td>
-                    </tr>       
-                    <tr>
-                        <td>Weight:</td>
-                        <td>${pokeDetails.weight}</td>
-                    </tr>
-                    <tr>
-                        <td>Base Experience:</td>
-                        <td>${pokeDetails.base_experience}</td>
-                    </tr>
-                </table>
-            
+                ${showDetailMainInHTML(pokemon)}
             </div>
         </div>
     `;
@@ -71,25 +54,24 @@ function returnTypesHTML(types, i) {
     `;
 }
 
-function showDetailMainInHTML(index) {
-
+function showDetailMainInHTML(pokemon) {
     return `
         <table>
             <tr>
                 <td>Name:</td>
-                <td>${pokes[index].name}</td>
+                <td>${pokemon.name}</td>
             </tr>
             <tr>
                 <td>Height:</td>
-                <td>${pokeDetails.height}</td>
+                <td>${pokemon.height}</td>
             </tr>       
             <tr>
                 <td>Weight:</td>
-                <td>${pokeDetails.weight}</td>
+                <td>${pokemon.weight}</td>
             </tr>
             <tr>
                 <td>Base Experience:</td>
-                <td>${pokeDetails.base_experience}</td>
+                <td>${pokemon.base_experience}</td>
             </tr>
         </table>
         `;

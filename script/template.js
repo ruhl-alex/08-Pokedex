@@ -111,7 +111,7 @@ function showDetailStatsInHTML(pokemon) {
 function showNoPokeFound() {
     return `
         <div class="no-poke-found">
-            <p>No Pokémon found. <br>Please try again using 3 or more characters.</p>
+            No Pokémon found. <br>Please try again using 3 or more characters.<br>
             <button onclick="renderPokes()" class="load-more-btn">Show all Pokémon</button>
         </div>
     `;

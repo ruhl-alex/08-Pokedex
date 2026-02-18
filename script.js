@@ -23,11 +23,14 @@ function hideLoadingSpinner() {
 
 function renderPokes() {
     const pokeContainer = document.getElementById("poke-container");
+    const searchInput = document.getElementById("search-input");
+    searchInput.value = "";
     pokeContainer.innerHTML = "";
 
     for (let index = 0; index < pokes.length; index++) {
         pokeContainer.innerHTML += renderPokeCards(index);
     }
+
 }
 
 async function loadPokes() {
@@ -135,70 +138,86 @@ async function loadMorePokes() {
 function searchPoke() {
     const searchInput = document.getElementById("search-input").value.toLowerCase();
     const pokeContainer = document.getElementById("poke-container");
+    const showAllBtn = document.getElementById("show-all-btn");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+
+    if (searchInput.length < 3) {
+        return;
+    }
+
     pokeContainer.innerHTML = "";
     showLoadingSpinner();
-    if (searchInput.length >= 3) {
-        for (let index = 0; index < pokes.length; index++) {
-            if (pokes[index].name.toLowerCase().includes(searchInput)) {
-                pokeContainer.innerHTML += renderPokeCards(index);
-            }
+
+    let found = false;
+
+    for (let index = 0; index < pokes.length; index++) {
+        if (pokes[index].name.toLowerCase().includes(searchInput)) {
+            pokeContainer.innerHTML += renderPokeCards(index);
+            found = true;
         }
+    }
+
+    if (found) {
+        showAllBtn.classList.remove("d-none");
+        loadMoreBtn.classList.add("d-none");
     } else {
-        renderPokes();
+        pokeContainer.innerHTML = showNoPokeFound();
+        loadMoreBtn.classList.add("d-none");
     }
     hideLoadingSpinner();
 }
 
-async function showPokeDetails(index) {
-    const dialogRef = document.getElementById("poke-dialog");
-    await loadPokeDetailsToArray(index + 1);
-    dialogRef.innerHTML = showPokeDetailsHTML(index);
 
-    currentIndex = index;
-    dialogRef.showModal();
-    dialogRef.classList.add("opened");
-}
+    async function showPokeDetails(index) {
+        const dialogRef = document.getElementById("poke-dialog");
+        await loadPokeDetailsToArray(index + 1);
+        dialogRef.innerHTML = showPokeDetailsHTML(index);
 
-function changePokeDetails(index, direction) {
-    let newIndex = index + direction;
+        currentIndex = index;
+        dialogRef.showModal();
+        dialogRef.classList.add("opened");
+    }
 
-    if (newIndex < 0) {
-        newIndex = pokes.length - 1;
-    } else if (newIndex >= pokes.length) {
-        newIndex = 0;
-    }
-    showPokeDetails(newIndex);
-}
+    function changePokeDetails(index, direction) {
+        let newIndex = index + direction;
 
-function closeDialog() {
-    const dialogRef = document.getElementById("poke-dialog");
-    dialogRef.close();
-    dialogRef.classList.remove("opened");
-}
+        if (newIndex < 0) {
+            newIndex = pokes.length - 1;
+        } else if (newIndex >= pokes.length) {
+            newIndex = 0;
+        }
+        showPokeDetails(newIndex);
+    }
 
-document.addEventListener("click", (event) => {
+    function closeDialog() {
+        const dialogRef = document.getElementById("poke-dialog");
+        dialogRef.close();
+        dialogRef.classList.remove("opened");
+    }
 
-    const dialogRef = document.getElementById("poke-dialog");
-    if (!dialogRef.open) {
-        return;
-    }
-    if (event.target === dialogRef) {
-        closeDialog();
-    }
-});
+    document.addEventListener("click", (event) => {
 
-document.addEventListener("keydown", (event) => {
-    const dialogRef = document.getElementById("poke-dialog");
-    if (!dialogRef.open) {
-        return;
-    }
-    if (event.key === "ArrowRight") {
-        showPokeDetails(currentIndex + 1);
-    }
-    if (event.key === "ArrowLeft") {
-        showPokeDetails(currentIndex - 1);
-    }
-    if (event.key === "Escape") {
-        closeDialog();
-    }
-});
+        const dialogRef = document.getElementById("poke-dialog");
+        if (!dialogRef.open) {
+            return;
+        }
+        if (event.target === dialogRef) {
+            closeDialog();
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        const dialogRef = document.getElementById("poke-dialog");
+        if (!dialogRef.open) {
+            return;
+        }
+        if (event.key === "ArrowRight") {
+            showPokeDetails(currentIndex + 1);
+        }
+        if (event.key === "ArrowLeft") {
+            showPokeDetails(currentIndex - 1);
+        }
+        if (event.key === "Escape") {
+            closeDialog();
+        }
+    });

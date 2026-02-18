@@ -312,6 +312,19 @@ progress {
     font-size: 12px;
 }
 
+.no-poke-found {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    color: #ced1d3;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
 @media screen and (max-width: 670px) {
     .header-part-left {
         display: none;

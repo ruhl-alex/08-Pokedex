@@ -3,6 +3,7 @@ let pokeDetails = [];
 let BASE_URL = "https://pokeapi.co/api/v2/";
 let limit = 30;
 let offSet = 0;
+let currentIndex = 0;
 
 async function onload() {
     showLoadingSpinner();
@@ -41,7 +42,6 @@ async function loadPokes() {
             }
         );
     }
-    console.log(pokes);
 }
 
 async function loadImgAndTypes() {
@@ -154,10 +154,9 @@ async function showPokeDetails(index) {
     await loadPokeDetailsToArray(index + 1);
     dialogRef.innerHTML = showPokeDetailsHTML(index);
 
+    currentIndex = index;
     dialogRef.showModal();
     dialogRef.classList.add("opened");
-
-    console.log(pokeDetails);
 }
 
 function changePokeDetails(index, direction) {
@@ -184,6 +183,22 @@ document.addEventListener("click", (event) => {
         return;
     }
     if (event.target === dialogRef) {
+        closeDialog();
+    }
+});
+
+document.addEventListener("keydown", (event) => {
+    const dialogRef = document.getElementById("poke-dialog");
+    if (!dialogRef.open) {
+        return;
+    }
+    if (event.key === "ArrowRight") {
+        showPokeDetails(currentIndex + 1);
+    }
+    if (event.key === "ArrowLeft") {
+        showPokeDetails(currentIndex - 1);
+    }
+    if (event.key === "Escape") {
         closeDialog();
     }
 });

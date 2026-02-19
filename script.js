@@ -26,12 +26,17 @@ function hideLoadingSpinner() {
 function renderPokes() {
     const pokeContainer = document.getElementById("poke-container");
     const searchInput = document.getElementById("search-input");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    const showAllBtn = document.getElementById("show-all-btn");
+
     searchInput.value = "";
     pokeContainer.innerHTML = "";
 
     for (let index = 0; index < pokes.length; index++) {
         pokeContainer.innerHTML += renderPokeCards(index);
     }
+    loadMoreBtn.classList.remove("d-none");
+    showAllBtn.classList.add("d-none");
 }
 
 async function loadPokes() {

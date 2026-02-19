@@ -30,10 +30,10 @@ function renderPokes() {
     for (let index = 0; index < pokes.length; index++) {
         pokeContainer.innerHTML += renderPokeCards(index);
     }
-
 }
 
 async function loadPokes() {
+
     let pokesList = await loadDataFromApi(`pokemon?limit=${limit}&offset=${offSet}`);
     for (let index = 0; index < pokesList.results.length; index++) {
 
@@ -45,6 +45,16 @@ async function loadPokes() {
             }
         );
     }
+    console.log(pokes);
+}
+
+async function loadMorePokes() {
+    showLoadingSpinner();
+    offSet += limit;
+    await loadPokes();
+    await loadImgAndTypes();
+    renderPokes();
+    hideLoadingSpinner();
 }
 
 async function loadImgAndTypes() {
@@ -85,19 +95,14 @@ async function loadPokeDetailsToArray(index) {
     pokeListDetails = await loadDataFromApi("pokemon/" + (index + 1));
 
     if (pokeDetails.find(poke => poke.id === index)) {
-        return;
-    }
+        return;}
 
     let statsName = [];
     let statsBaseStat = [];
 
     for (let i = 0; i < pokeListDetails.stats.length; i++) {
-        statsName.push(
-            pokeListDetails.stats[i].stat.name.charAt(0).toUpperCase() + pokeListDetails.stats[i].stat.name.slice(1)
-        );
-        statsBaseStat.push(
-            pokeListDetails.stats[i].base_stat
-        );
+        statsName.push(pokeListDetails.stats[i].stat.name.charAt(0).toUpperCase() + pokeListDetails.stats[i].stat.name.slice(1));
+        statsBaseStat.push(pokeListDetails.stats[i].base_stat);
     }
 
     pokeDetails.push(
@@ -109,8 +114,7 @@ async function loadPokeDetailsToArray(index) {
             base_experience: pokeListDetails.base_experience,
             statsBaseStat: statsBaseStat,
             statsName: statsName,
-        }
-    );
+        });
 }
 
 async function loadDataFromApi(path = "") {
@@ -126,15 +130,6 @@ function renderTypes(types) {
     return typesHTML;
 }
 
-async function loadMorePokes() {
-    showLoadingSpinner();
-    offSet += limit;
-    await loadPokes();
-    await loadImgAndTypes();
-    renderPokes();
-    hideLoadingSpinner();
-}
-
 function searchPoke() {
     const searchInput = document.getElementById("search-input").value.toLowerCase();
     const pokeContainer = document.getElementById("poke-container");
@@ -144,80 +139,76 @@ function searchPoke() {
     if (searchInput.length < 3) {
         return;
     }
-
     pokeContainer.innerHTML = "";
     showLoadingSpinner();
 
     let found = false;
-
     for (let index = 0; index < pokes.length; index++) {
         if (pokes[index].name.toLowerCase().includes(searchInput)) {
             pokeContainer.innerHTML += renderPokeCards(index);
             found = true;
         }
     }
-
     if (found) {
         showAllBtn.classList.remove("d-none");
         loadMoreBtn.classList.add("d-none");
     } else {
         pokeContainer.innerHTML = showNoPokeFound();
         loadMoreBtn.classList.add("d-none");
-    }
+        showAllBtn.classList.add("d-none");}
     hideLoadingSpinner();
 }
 
+async function showPokeDetails(index) {
+    const dialogRef = document.getElementById("poke-dialog");
+    await loadPokeDetailsToArray(index + 1);
+    dialogRef.innerHTML = showPokeDetailsHTML(index);
 
-    async function showPokeDetails(index) {
-        const dialogRef = document.getElementById("poke-dialog");
-        await loadPokeDetailsToArray(index + 1);
-        dialogRef.innerHTML = showPokeDetailsHTML(index);
+    currentIndex = index;
+    dialogRef.showModal();
+    dialogRef.classList.add("opened");
+}
 
-        currentIndex = index;
-        dialogRef.showModal();
-        dialogRef.classList.add("opened");
+function changePokeDetails(index, direction) {
+    let newIndex = index + direction;
+
+    if (newIndex < 0) {
+        newIndex = pokes.length - 1;
+    } else if (newIndex >= pokes.length) {
+        newIndex = 0;
     }
+    showPokeDetails(newIndex);
+}
 
-    function changePokeDetails(index, direction) {
-        let newIndex = index + direction;
+function closeDialog() {
+    const dialogRef = document.getElementById("poke-dialog");
+    dialogRef.close();
+    dialogRef.classList.remove("opened");
+}
 
-        if (newIndex < 0) {
-            newIndex = pokes.length - 1;
-        } else if (newIndex >= pokes.length) {
-            newIndex = 0;
-        }
-        showPokeDetails(newIndex);
+document.addEventListener("click", (event) => {
+
+    const dialogRef = document.getElementById("poke-dialog");
+    if (!dialogRef.open) {
+        return;
     }
-
-    function closeDialog() {
-        const dialogRef = document.getElementById("poke-dialog");
-        dialogRef.close();
-        dialogRef.classList.remove("opened");
+    if (event.target === dialogRef) {
+        closeDialog();
     }
+});
 
-    document.addEventListener("click", (event) => {
-
-        const dialogRef = document.getElementById("poke-dialog");
-        if (!dialogRef.open) {
-            return;
-        }
-        if (event.target === dialogRef) {
-            closeDialog();
-        }
-    });
-
-    document.addEventListener("keydown", (event) => {
-        const dialogRef = document.getElementById("poke-dialog");
-        if (!dialogRef.open) {
-            return;
-        }
-        if (event.key === "ArrowRight") {
-            showPokeDetails(currentIndex + 1);
-        }
-        if (event.key === "ArrowLeft") {
-            showPokeDetails(currentIndex - 1);
-        }
-        if (event.key === "Escape") {
-            closeDialog();
-        }
-    });
+document.addEventListener("keydown", (event) => {
+    const dialogRef = document.getElementById("poke-dialog");
+    if (!dialogRef.open) {
+        return;
+    }
+    if (event.key === "ArrowRight") {
+        showPokeDetails(currentIndex + 1);
+    }
+    if (event.key === "ArrowLeft") {
+        showPokeDetails(currentIndex - 1);
+    }
+    if (event.key === "Escape") {
+        closeDialog();
+    }
+});

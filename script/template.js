@@ -58,6 +58,10 @@ function showDetailMainInHTML(pokemon) {
     return `
         <table>
             <tr>
+                <td>Id:</td>
+                <td>${pokemon.id}</td>
+            </tr>
+            <tr>
                 <td>Name:</td>
                 <td>${pokemon.name}</td>
             </tr>

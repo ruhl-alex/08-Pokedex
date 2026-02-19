@@ -1,5 +1,7 @@
 let pokes = [];
 let pokeDetails = [];
+let statsName = [];
+let statsBaseStat = [];
 let BASE_URL = "https://pokeapi.co/api/v2/";
 let limit = 30;
 let offSet = 0;
@@ -97,13 +99,9 @@ async function loadPokeDetailsToArray(index) {
     if (pokeDetails.find(poke => poke.id === index)) {
         return;}
 
-    let statsName = [];
-    let statsBaseStat = [];
-
     for (let i = 0; i < pokeListDetails.stats.length; i++) {
         statsName.push(pokeListDetails.stats[i].stat.name.charAt(0).toUpperCase() + pokeListDetails.stats[i].stat.name.slice(1));
-        statsBaseStat.push(pokeListDetails.stats[i].base_stat);
-    }
+        statsBaseStat.push(pokeListDetails.stats[i].base_stat);}
 
     pokeDetails.push(
         {
@@ -118,8 +116,17 @@ async function loadPokeDetailsToArray(index) {
 }
 
 async function loadDataFromApi(path = "") {
-    let response = await fetch(BASE_URL + path);
-    return responseToJson = await response.json();
+    const pokeContainer = document.getElementById("poke-container");
+
+    try {
+        let response = await fetch(BASE_URL + path);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        pokeContainer.innerHTML = "";
+        pokeContainer.innerHTML = loadApiError();
+        return null;
+    }
 }
 
 function renderTypes(types) {
@@ -136,9 +143,7 @@ function searchPoke() {
     const showAllBtn = document.getElementById("show-all-btn");
     const loadMoreBtn = document.getElementById("load-more-btn");
 
-    if (searchInput.length < 3) {
-        return;
-    }
+    if (searchInput.length < 3) { return; }
     pokeContainer.innerHTML = "";
     showLoadingSpinner();
 
@@ -153,9 +158,10 @@ function searchPoke() {
         showAllBtn.classList.remove("d-none");
         loadMoreBtn.classList.add("d-none");
     } else {
-        pokeContainer.innerHTML = showNoPokeFound();
+        pokeContainer.innerHTML = showNoPokeFound(searchInput);
         loadMoreBtn.classList.add("d-none");
-        showAllBtn.classList.add("d-none");}
+        showAllBtn.classList.add("d-none");
+    }
     hideLoadingSpinner();
 }
 

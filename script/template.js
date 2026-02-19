@@ -109,14 +109,22 @@ function showDetailStatsInHTML(pokemon) {
                 <td><progress value="${pokemon.statsBaseStat[5]}" max="100"></progress></td>
             </tr>
         </table>
-        `
+        `;
 }
 
-function showNoPokeFound() {
+function showNoPokeFound(searchInput) {
     return `
         <div class="no-poke-found">
-            No Pokémon found. <br>Please try again using 3 or more characters.<br>
+            The Pokémon "${searchInput}" was not found. <br>Please try again using 3 or more characters.<br>
             <button onclick="renderPokes()" class="load-more-btn">Show all Pokémon</button>
+        </div>
+    `;
+}
+
+function loadApiError() {
+    return `
+        <div class="no-poke-found">
+            The PokéAPI is currently not available.
         </div>
     `;
 }
